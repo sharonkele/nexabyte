@@ -5,7 +5,7 @@ resource "aws_launch_template" "foobar" {
   user_data = templatefile("./userdata.sh") 
   network_interfaces {
     associate_public_ip_address = false
-    security_groups = var.security_groups
+    security_groups = aws_security_group.allow_tls.id
   } 
 
   block_device_mappings {
