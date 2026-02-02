@@ -1,5 +1,5 @@
 resource "aws_launch_template" "foobar" {
-  name   = "nexabyte-asg"
+  name   = "nexabyte-lt"
   image_id      = var.ami_id
   instance_type = var.instance_type
   user_data = templatefile("./userdata.sh")
@@ -24,13 +24,13 @@ resource "aws_launch_template" "foobar" {
   }
 
 resource "aws_autoscaling_group" "bar" {
-  name = 
+  name = "nexabyte-asg"
   desired_capacity   = 1
   max_size           = 1
   min_size           = 1
   health_check_grace_period = 300
   health_check_type = "ELB"
-  
+
 
   launch_template {
     id      = aws_launch_template.foobar.id
