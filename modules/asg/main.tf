@@ -5,7 +5,7 @@ resource "aws_launch_template" "foobar" {
   user_data = templatefile("./userdata.sh")
   key_name = "aws_linux" 
   iam_instance_profile {
-    name = 
+    name = aws_iam_role.ec2_role.name
   }
   network_interfaces {
     associate_public_ip_address = true
@@ -37,3 +37,5 @@ resource "aws_autoscaling_group" "bar" {
     version = "$Latest"
   }
 }
+
+
