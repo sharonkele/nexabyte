@@ -3,7 +3,7 @@ resource "aws_launch_template" "foobar" {
   image_id      = var.ami_id
   instance_type = var.instance_type
   user_data = templatefile("./userdata.sh")
-  key_name = "aws_linux" 
+  key_name = "uni-aws-linux-web-servee" 
   iam_instance_profile {
     name = aws_iam_role.ec2_role.name
   }
