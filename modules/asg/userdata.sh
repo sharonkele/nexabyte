@@ -1,13 +1,14 @@
 #!/bin/bash
 FILE_NAME=index.html
+USER=
 sudo apt update
 sudo apt install nginx
 sudo amazon-linux-extras install nginx1 -y 
 sudo systemctl enable nginx
 sudo systemctl start nginx
-cd /var/www
-sudo mkdir nexabyte
-
+sudo mkdir -p /var/www/nexabyte
+sudo chown -R $USER:$USER /var/www/nexabyte
+sudo chmod -R 755 /var/www/nexabyte
 cd nexabyte
 cat <<EOF > /var/www/nexabyte/$FILE_NAME
 
