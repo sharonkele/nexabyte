@@ -2,7 +2,7 @@ resource "aws_launch_template" "foobar" {
   name   = "nexabyte-lt"
   image_id      = var.ami_id
   instance_type = var.instance_type
-  user_data = templatefile("./userdata.sh")
+  user_data = "../scripts/userdata.sh"
   key_name = "uni-aws-linux-web-servee" 
   iam_instance_profile {
     name = aws_iam_role.ec2_role.name
@@ -20,7 +20,7 @@ resource "aws_launch_template" "foobar" {
   }
 
 
-  vpc_security_group_ids = aws_security_group.allow_tls.id
+  vpc_security_group_ids = [aws_security_group.allow_tls.id]
   }
 
 resource "aws_autoscaling_group" "bar" {

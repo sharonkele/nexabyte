@@ -8,7 +8,7 @@ terraform {
       }
     }
 
-    backend "s3"{
+    backend "s3" {
         bucket = "terraform-state-so25aco"
         key = "nexabyte-dev"
         region = "eu-west-1"
