@@ -16,12 +16,12 @@ resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
   to_port           = 443
 }
 
-# resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv6" {
+# resource "aws_vpc_security_group_ingress_rule" "allow_tls_ssh" {
 #   security_group_id = aws_security_group.allow_tls.id
-#   cidr_ipv6         = aws_vpc.main.ipv6_cidr_block
-#   from_port         = 443
+#   cidr_ipv4        = "143.58.189.58/32"
+#   from_port         = 22
 #   ip_protocol       = "tcp"
-#   to_port           = 443
+#   to_port           = 22
 # }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
@@ -41,6 +41,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_alb_sg" {
   security_group_id = aws_security_group.allow_tls.id
   referenced_security_group_id = aws_security_group.lb_sg.id
   ip_protocol       = "tcp"
+  from_port =  443
   to_port           = 443
 }
 
@@ -66,13 +67,12 @@ resource "aws_security_group_rule" "ingress" {
 
 
 
-
-resource "aws_security_group_rule" "443" {
+resource "aws_security_group_rule" "allow_443" {
   type              = "ingress"
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
-  cidr_blocks       = "0.0.0.0/0"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.lb_sg.id
 }
 
@@ -82,7 +82,7 @@ resource "aws_security_group_rule" "egress" {
   from_port         = 0
   to_port           = 65535
   protocol          = "tcp"
-  cidr_blocks       = "0.0.0.0/0"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.lb_sg.id
 }
 

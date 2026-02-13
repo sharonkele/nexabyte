@@ -2,13 +2,14 @@ resource "aws_launch_template" "foobar" {
   name   = "nexabyte-lt"
   image_id      = var.ami_id
   instance_type = var.instance_type
-  user_data = "../scripts/userdata.sh"
+  user_data = filebase64("${path.module}/scripts/userdata.sh")
   key_name = "uni-aws-linux-web-servee" 
   iam_instance_profile {
-    name = aws_iam_role.ec2_role.name
+    name = aws_iam_instance_profile.profile.name
   }
   network_interfaces {
-    associate_public_ip_address = true
+    associate_public_ip_address = false
+    security_groups =  [aws_security_group.allow_tls.id]
   } 
 
   block_device_mappings {
@@ -19,9 +20,7 @@ resource "aws_launch_template" "foobar" {
     }
   }
 
-
-  vpc_security_group_ids = [aws_security_group.allow_tls.id]
-  }
+}
 
 resource "aws_autoscaling_group" "bar" {
   name = "nexabyte-asg"
@@ -30,6 +29,7 @@ resource "aws_autoscaling_group" "bar" {
   min_size           = 1
   health_check_grace_period = 300
   health_check_type = "ELB"
+  vpc_zone_identifier = [aws_subnet.private_subnet[0].id ]
 
 
   launch_template {
